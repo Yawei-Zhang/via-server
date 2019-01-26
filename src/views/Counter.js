@@ -1,5 +1,5 @@
 import React from 'react'
-import CounterStore from '../stores/CounterStore';
+import store from '../Store';
 import * as Actions from '../Action'
 import PropTypes from 'prop-types'
 
@@ -11,40 +11,44 @@ class Counter extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            count: CounterStore.getCounterValues()[props.caption]
+        this.state = this.getOwnState()
+    }
+
+    getOwnState() {
+        return {
+            value: store.getState()[this.props.caption]
         }
     }
 
     componentDidMount() {
-        CounterStore.addChangeListener(this.onChange)
+        store.subscribe(this.onChange)
     }
 
     componentWillUnmount() {
-        CounterStore.removeChangeListener(this.onChange)
+        store.unsubscribe(this.onChange)
     }
 
     onChange = () => {
-        const newCount = CounterStore.getCounterValues()[this.props.caption]
-        this.setState({count: newCount})
+        this.setState(this.getOwnState())
     }
 
-    onClickIncrementButton = () => {
-        Actions.increment(this.props.caption)
+    onIncrementButton = () => {
+        store.dispatch(Actions.increment(this.props.caption))
     }
 
-    onClickDecrementButton = () => {
-        Actions.decrement(this.props.caption)
+    onDecrementButton = () => {
+        store.dispatch(Actions.decrement(this.props.caption))
     }
 
     render() {
+        const {value} = this.state
         const {caption} = this.props
 
         return (
             <div>
-                <button style={buttonStyle} onClick={this.onClickIncrementButton}>+</button>
-                <button style={buttonStyle} onClick={this.onClickDecrementButton}>-</button>
-                <span>{caption} count: {this.state.count}</span>
+                <button style={buttonStyle} onClick={this.onIncrementButton}>+</button>
+                <button style={buttonStyle} onClick={this.onDecrementButton}>-</button>
+                <span>{caption} count: {value}</span>
             </div>
         )
     }
