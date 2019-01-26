@@ -1,6 +1,4 @@
 import React from 'react'
-import store from '../Store';
-import * as Actions from '../Action'
 import PropTypes from 'prop-types'
 
 const buttonStyle = {
@@ -8,46 +6,13 @@ const buttonStyle = {
 };
 
 class Counter extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = this.getOwnState()
-    }
-
-    getOwnState() {
-        return {
-            value: store.getState()[this.props.caption]
-        }
-    }
-
-    componentDidMount() {
-        store.subscribe(this.onChange)
-    }
-
-    componentWillUnmount() {
-        store.unsubscribe(this.onChange)
-    }
-
-    onChange = () => {
-        this.setState(this.getOwnState())
-    }
-
-    onIncrementButton = () => {
-        store.dispatch(Actions.increment(this.props.caption))
-    }
-
-    onDecrementButton = () => {
-        store.dispatch(Actions.decrement(this.props.caption))
-    }
-
     render() {
-        const {value} = this.state
-        const {caption} = this.props
+        const {value, caption, onIncrement, onDecrement} = this.props
 
         return (
             <div>
-                <button style={buttonStyle} onClick={this.onIncrementButton}>+</button>
-                <button style={buttonStyle} onClick={this.onDecrementButton}>-</button>
+                <button style={buttonStyle} onClick={onIncrement}>+</button>
+                <button style={buttonStyle} onClick={onDecrement}>-</button>
                 <span>{caption} count: {value}</span>
             </div>
         )
@@ -55,7 +20,10 @@ class Counter extends React.Component {
 }
 
 Counter.propTypes = {
-    caption: PropTypes.string.isRequired
+    value: PropTypes.number.isRequired,
+    caption: PropTypes.string.isRequired,
+    onIncrement: PropTypes.func,
+    onDecrement: PropTypes.func
 };
 
 export default Counter

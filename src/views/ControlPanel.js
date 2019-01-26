@@ -1,5 +1,5 @@
 import React from 'react'
-import Counter from './Counter'
+import CounterContainer from './CounterContainer'
 import Summary from './Summary'
 
 const style = {
@@ -10,9 +10,9 @@ class ControlPanel extends React.Component{
     render() {
         return (
             <div style={style}>
-                <Counter caption='First' />
-                <Counter caption='Second' />
-                <Counter caption='Third' />
+                <CounterContainer caption='First'/>
+                <CounterContainer caption='Second' />
+                <CounterContainer caption='Third' />
                 <hr/>
                 <Summary />
             </div>
