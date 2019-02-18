@@ -1,13 +1,14 @@
 import React from 'react'
-import ReactDOM from 'react-dom';
-import './index.css';
-import store from './Store'
-import ControlPanel from './views/ControlPanel'
-import {Provider} from 'react-redux'
+import ReactDOM from 'react-dom'
+import Header from './views/Header'
+import Main from './views/Main'
+import Footer from './views/Footer'
 
 ReactDOM.render(
-    <Provider store={store}>
-        <ControlPanel />
-    </Provider>,
+    <div>
+        <Header />
+        <Main />
+        <Footer />
+    </div>,
     document.getElementById('root')
 );
